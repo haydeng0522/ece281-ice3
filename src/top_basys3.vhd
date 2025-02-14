@@ -44,24 +44,39 @@ library ieee;
 
 
 entity top_basys3 is
-	port(
-		-- Switches
-		sw		:	in  std_logic_vector(15 downto 0);
-		
-		-- LEDs
-		led	    :	out	std_logic_vector(15 downto 0)
-	);
+    port(
+        -- Switches
+        sw  :   in  std_logic_vector(15 downto 0);
+
+        -- LEDs
+        led :   out std_logic_vector(15 downto 0)
+    );
 end top_basys3;
 
 architecture top_basys3_arch of top_basys3 is 
 	
     -- declare the component of your top-level design
+    component ripple_adder is
+        port ( 
+            A : in STD_LOGIC_VECTOR (3 downto 0);
+            B : in STD_LOGIC_VECTOR (3 downto 0);
+            Cin : in STD_LOGIC;
+            S : out STD_LOGIC_VECTOR (3 downto 0);
+            Cout : out STD_LOGIC);
+        end component ripple_adder;
 
     -- declare any signals you will need	
   
 begin
 	-- PORT MAPS --------------------
-   
+    ripple_adder_0: ripple_adder
+    port map (
+        A(3 downto 0)  => sw(4 downto 1),
+        B(3 downto 0)  => sw(15 downto 12),
+        Cin   => sw(0),
+        S(3 downto 0)  => led(3 downto 0),
+        Cout  => led(15)
+    );    
 	---------------------------------
 	
 	-- CONCURRENT STATEMENTS --------
